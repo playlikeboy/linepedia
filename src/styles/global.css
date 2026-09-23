@@ -1,140 +1,63 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #1e1b4b;
-  --color-secondary: #e0e7ff;
-  --color-accent: #f59e0b;
-  --color-cream: #fafaf9;
-  --color-lavender: #f3f4ff;
-
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
-
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  --color-primary: #28234f;
+  --color-secondary: #e6ddd0;
+  --color-accent: #b06b2f;
+  --color-cream: #f7f2e8;
+  --color-paper: #fbf8f1;
+  --color-lavender: #f0eee7;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-reading: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Poppins', Inter, system-ui, sans-serif;
+  --radius-xl: 0.85rem;
+  --radius-2xl: 1.2rem;
 }
 
 @layer base {
+  html { scroll-behavior: smooth; }
   body {
     @apply bg-cream text-primary font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(176, 107, 47, 0.035), transparent 45%),
+      linear-gradient(to bottom, rgba(40, 35, 79, 0.018) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 34px;
+    overflow-x: hidden;
   }
+  ::selection { background: rgba(176, 107, 47, 0.18); color: #28234f; }
+  :focus-visible { outline: 2px solid #b06b2f; outline-offset: 3px; }
 }
 
 @utility poetic-gradient {
-  background: linear-gradient(135deg, theme('colors.cream') 0%, theme('colors.lavender') 100%);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.7), transparent 40%),
+    linear-gradient(180deg, #faf8f1 0%, #f7f2e8 100%);
 }
 
 @utility card-shadow {
-  box-shadow: 0 4px 20px -2px rgba(30, 27, 75, 0.05);
+  box-shadow: 0 8px 32px -18px rgba(40, 35, 79, 0.22);
 }
 
-@utility card-hover {
-  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
-}
+@utility card-hover { @apply transition-transform duration-300 hover:-translate-y-0.5; }
 
-/* Scroll & Entrance Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideInFromBottom {
-  from {
-    transform: translateY(2rem);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInFromTop {
-  from {
-    transform: translateY(-1rem);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.animate-in {
-  animation-duration: 0.8s;
-  animation-fill-mode: both;
-}
-
-.fade-in {
-  animation-name: fadeIn;
-}
-.slide-in-from-bottom-8 {
-  animation-name: slideInFromBottom;
-}
-.slide-in-from-top-4 {
-  animation-name: slideInFromTop;
-}
-
-.duration-1000 {
-  animation-duration: 1s;
-}
-.delay-200 {
-  animation-delay: 0.2s;
-}
-.delay-400 {
-  animation-delay: 0.4s;
-}
-.delay-600 {
-  animation-delay: 0.6s;
-}
-.delay-800 {
-  animation-delay: 0.8s;
-}
-
-/* Poetic Text Utilities */
 .poetic-text {
-  font-family: 'Playfair Display', serif;
-  letter-spacing: -0.01em;
+  font-family: var(--font-reading);
+  letter-spacing: 0.005em;
 }
 
-::selection {
-  background: var(--color-accent);
-  color: white;
+.prose-editorial {
+  max-width: 72ch;
+  line-height: 1.85;
+  font-size: 1.05rem;
 }
+.prose-editorial h1,
+.prose-editorial h2,
+.prose-editorial h3 { font-family: var(--font-serif); color: #28234f; }
 
-/* Focus states for accessibility */
-:focus-visible {
-  outline: 2px solid #6366f1;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Clean prose for blog/poem content */
-.prose-editorial {
-  max-width: 720px;
-  line-height: 1.75;
-  font-size: 1.0625rem;
-}
-.prose-editorial h1 { font-size: 2rem; margin-bottom: 0.5em; }
-.prose-editorial h2 { font-size: 1.5rem; margin-top: 2em; margin-bottom: 0.5em; }
-.prose-editorial p { margin-bottom: 1.25em; }
-.prose-editorial a { color: #4f46e5; text-decoration: underline; }
-.prose-editorial blockquote {
-  border-left: 3px solid #e0e7ff;
-  padding-left: 1em;
-  font-style: italic;
-  color: #4338ca;
 }
