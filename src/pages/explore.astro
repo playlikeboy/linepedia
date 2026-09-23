@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import PoemCard from '../components/PoemCard.astro';
 import Search from '../components/Search.astro';
-import { Quote, Search as SearchIcon, Filter } from 'lucide-astro';
+import { Filter, Sparkles } from 'lucide-astro';
 
 import Pagination from '../components/Pagination.astro';
 import { getAllWriters, getAllCategories, getFeaturedPoems } from '../lib/cdn';
@@ -15,10 +15,26 @@ const categories = await getAllCategories();
 const poemsData = await getFeaturedPoems();
 
 const pageSize = 12;
-const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
-const totalPages = Math.ceil(poemsData.length / pageSize);
+const rawPage = Number.parseInt(Astro.url.searchParams.get('page') || '1', 10);
+const currentPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+const query = (Astro.url.searchParams.get('q') || '').trim().toLowerCase();
 
-const featuredPoems = poemsData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+const filteredPoems = query
+  ? poemsData.filter((poem: any) => {
+      const writer = writers.find((w: any) => w.slug === poem.writer)?.name || poem.writer;
+      const haystack = [
+        poem.slug,
+        poem.title,
+        poem.content,
+        writer,
+        ...(poem.category || []),
+      ].join(' ').toLowerCase();
+      return query.split(/\s+/).every((term) => haystack.includes(term));
+    })
+  : poemsData;
+
+const totalPages = Math.max(1, Math.ceil(filteredPoems.length / pageSize));
+const featuredPoems = filteredPoems.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
 // Language detection
 const supportedLanguages: string[] = ["en", "es", "fr", "de", "hi", "ar", "zh", "ja", "ru", "pt", "it"];
@@ -26,7 +42,7 @@ const requestedLang = Astro.url.searchParams.get("lang") || "en";
 const lang = supportedLanguages.includes(requestedLang) ? requestedLang : "en";
 const siteOrigin = getSiteOrigin(Astro.site, Astro.url.origin);
 const canonicalURL = buildCanonicalUrl('/explore/', siteOrigin);
-const shouldNoindex = getNormalizedLang(requestedLang) !== 'en' || currentPage > 1;
+const shouldNoindex = getNormalizedLang(requestedLang) !== 'en' || currentPage > 1 || Boolean(query);
 const isTranslationParamPage = shouldNoindexForLanguageParam(Astro.url.searchParams);
 const robots = shouldNoindex
 	? 'noindex,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1'
@@ -49,7 +65,7 @@ const robots = shouldNoindex
 		<div class="container mx-auto px-4">
 			<div class="max-w-3xl mx-auto text-center mb-10">
 				<h1 class="text-3xl md:text-4xl font-serif font-black text-primary mb-3">Explore Poetry</h1>
-				<p class="text-base text-primary/50">Search through 75,000+ curated lines and poems.</p>
+				<p class="text-base text-primary/50">{query ? `Showing results for “${query}”.` : "Explore the curated poetry archive by mood, writer, or theme."}</p>
 			</div>
 
 			<div class="max-w-3xl mx-auto mb-12">
@@ -66,7 +82,7 @@ const robots = shouldNoindex
 						</h3>
 						<div class="flex flex-wrap gap-2">
 							{categories.slice(0, 15).map((cat: any) => (
-								<a href={`/${cat.slug}/`} class="px-4 py-2 bg-white border border-indigo-50 rounded-full text-sm font-medium text-primary hover:bg-primary hover:text-white transition-all">
+								<a href={`/${cat.slug}/`} class="px-4 py-2 bg-paper border border-primary/10 rounded-full text-sm font-medium text-primary/70 hover:border-primary/30 hover:text-primary transition-colors">
 									{cat.name}
 								</a>
 							))}
@@ -82,7 +98,7 @@ const robots = shouldNoindex
 							{writers.slice(0, 8).map((writer: any) => (
 								<a href={`/${writer.slug}/`} class="flex items-center space-x-4 group">
 									<img src={writer.photo} class="w-10 h-10 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all" />
-									<span class="font-bold text-primary group-hover:text-accent transition-colors">{writer.name}</span>
+									<span class="font-semibold text-primary/80 group-hover:text-accent transition-colors">{writer.name}</span>
 								</a>
 							))}
 						</div>
@@ -92,20 +108,25 @@ const robots = shouldNoindex
 				{/* Results Grid */}
 				<div class="lg:col-span-3">
 					<div class="flex items-center justify-between mb-8">
-						<h2 class="text-2xl font-serif font-black text-primary">Featured Selection</h2>
+						<h2 class="text-2xl font-serif font-black text-primary">{query ? "Search Results" : "Featured Selection"}</h2>
 						<span class="text-sm text-primary/40 font-bold">Page {currentPage} of {totalPages}</span>
 					</div>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-						{featuredPoems.map((poem: any) => (
-							<PoemCard
-								id={poem.id}
-								slug={poem.slug}
-								content={poem.content.slice(0, 200)}
-								writer={poem.writer}
-								writerName={writers.find((w: any) => w.slug === poem.writer)?.name || poem.writer}
-							/>
-						))}
-					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+            {featuredPoems.length > 0 ? featuredPoems.map((poem: any) => (
+              <PoemCard
+                id={poem.id}
+                slug={poem.slug}
+                content={poem.content.slice(0, 240)}
+                writer={poem.writer}
+                writerName={writers.find((w: any) => w.slug === poem.writer)?.name || poem.writer}
+              />
+            )) : (
+              <div class="md:col-span-2 border-t border-primary/10 py-16 text-center">
+                <p class="font-serif text-xl text-primary/75">No lines found.</p>
+                <p class="mt-2 text-sm text-primary/45">Try an author, feeling, or different phrase.</p>
+              </div>
+            )}
+          </div>
 
 					<Pagination 
 						currentPage={currentPage} 
