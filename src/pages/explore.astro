@@ -131,7 +131,7 @@ const robots = shouldNoindex
 					<Pagination 
 						currentPage={currentPage} 
 						totalPages={totalPages} 
-						baseUrl="/explore/" 
+						baseUrl={query ? `/explore/?q=${encodeURIComponent(query)}` : "/explore/"} 
 					/>
 				</div>
 			</div>
