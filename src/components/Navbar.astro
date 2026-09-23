@@ -1,118 +1,168 @@
 ---
-import { Search, Menu, Home, Compass, PenTool, LayoutGrid, BookOpen, Image, Code } from 'lucide-astro';
+import { Search, Menu, Home, Compass, PenTool, LayoutGrid, BookOpen, Image, Code, X } from 'lucide-astro';
 
 const navItems = [
   { name: 'Explore', href: '/explore/', icon: Compass },
   { name: 'Categories', href: '/categories/', icon: LayoutGrid },
   { name: 'Writers', href: '/writers/', icon: PenTool },
+  { name: 'Collections', href: '/collections/', icon: BookOpen },
   { name: 'Blog', href: '/blog/', icon: BookOpen },
-  { name: 'API', href: '/api/', icon: Code },
+];
+
+const secondaryItems = [
   { name: 'Posters', href: '/posters/', icon: Image },
+  { name: 'API', href: '/api/', icon: Code },
 ];
 
 const languages = [
   { code: 'en', name: 'English' },
-  { code: 'es', name: 'Español' },
   { code: 'hi', name: 'हिन्दी' },
+  { code: 'ar', name: 'العربية' },
+  { code: 'es', name: 'Español' },
   { code: 'fr', name: 'Français' },
   { code: 'de', name: 'Deutsch' },
-  { code: 'ar', name: 'العربية' },
   { code: 'zh', name: '中文' },
   { code: 'ja', name: '日本語' },
   { code: 'ru', name: 'Русский' },
   { code: 'pt', name: 'Português' },
-  { code: 'it', name: 'Italiano' }
+  { code: 'it', name: 'Italiano' },
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-indigo-100">
-  <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center space-x-2">
-      <span class="text-2xl font-serif font-black text-primary tracking-tight">Linespedia</span>
+<header class="sticky top-0 z-50 bg-cream/92 backdrop-blur-lg border-b border-primary/10">
+  <div class="container mx-auto px-4 h-[4.25rem] flex items-center justify-between gap-4">
+    <a href="/" class="shrink-0 text-[1.55rem] md:text-2xl font-serif font-black text-primary tracking-tight" aria-label="Linespedia home">
+      Linespedia
     </a>
 
-    <nav class="hidden md:flex items-center space-x-8">
+    <nav class="hidden lg:flex items-center gap-6 xl:gap-7" aria-label="Primary">
       {navItems.map(item => (
-        <a href={item.href} class="text-sm font-bold text-primary/60 hover:text-accent transition-all uppercase tracking-widest">
+        <a href={item.href} class="text-[11px] font-semibold text-primary/55 hover:text-accent transition-colors uppercase tracking-[0.16em]">
           {item.name}
         </a>
       ))}
     </nav>
 
-    <div class="flex items-center space-x-6">
-      <div class="relative group h-full flex items-center">
-        <button class="flex items-center space-x-1 text-sm font-bold uppercase tracking-widest text-primary/60 hover:text-accent transition-all py-2 cursor-pointer">
-          <Compass size={16} />
+    <div class="flex items-center gap-1.5 sm:gap-3">
+      <a href="/explore/" aria-label="Search poetry" class="p-2 text-primary/55 hover:text-accent transition-colors">
+        <Search size={18} />
+      </a>
+
+      <div class="relative group hidden sm:flex items-center">
+        <button type="button" aria-label="Choose language" class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/55 hover:text-accent transition-colors py-2">
           <span>Language</span>
         </button>
-        <div class="absolute top-full right-0 mt-1 w-48 bg-white/95 backdrop-blur-xl border border-indigo-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-2 grid grid-cols-1 gap-1">
+        <div class="absolute top-full right-0 mt-2 w-44 bg-paper/98 border border-primary/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 z-50">
           {languages.map(lang => (
-            <button 
-              class="lang-select-btn px-4 py-2 text-left text-xs font-bold text-primary/70 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
-              data-lang={lang.code}
-            >
+            <button type="button" class="lang-select-btn w-full rounded-lg px-3 py-2 text-left text-xs font-semibold text-primary/70 hover:text-accent hover:bg-primary/5 transition-colors" data-lang={lang.code}>
               {lang.name}
             </button>
           ))}
         </div>
       </div>
-      
-      <a href="https://scriptly.store?ref=linespedia" target="_blank" rel="noopener noreferrer" class="hidden lg:flex items-center space-x-2 px-5 py-2 border-2 border-[#58CC02] text-[#58CC02] hover:bg-[#58CC02] hover:text-white text-xs font-black uppercase tracking-widest rounded-full transition-all shadow-sm">
-        <Code size={14} />
-        <span>Buy Code</span>
-      </a>
-      <a href="/submit/" class="hidden md:block px-6 py-2.5 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-full hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20">
-        Submit Line
-      </a>
-    </div>
 
-    <button class="md:hidden p-2 text-primary" id="mobile-menu-btn">
-      <Menu size={24} />
-    </button>
+      <a href="/submit/" class="hidden md:inline-flex px-5 py-2.5 bg-primary text-white text-[11px] font-bold uppercase tracking-[0.16em] rounded-full hover:bg-primary/90 transition-colors">
+        Submit
+      </a>
+
+      <button
+        class="md:hidden p-2 text-primary"
+        id="mobile-menu-btn"
+        type="button"
+        aria-label="Open navigation"
+        aria-controls="mobile-navigation"
+        aria-expanded="false"
+      >
+        <Menu size={22} />
+      </button>
+    </div>
   </div>
 </header>
 
-<!-- Mobile Bottom Navigation -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-indigo-50 px-6 py-3 flex items-center justify-between shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-  <a href="/" class="flex flex-col items-center space-y-1 text-primary">
-    <Home size={20} />
-    <span class="text-[10px] font-medium uppercase tracking-wider">Home</span>
+<div id="mobile-navigation" class="hidden fixed inset-x-3 top-[4.75rem] z-50 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-primary/10 bg-paper/98 shadow-2xl p-5 md:hidden">
+  <div class="flex items-center justify-between pb-4 border-b border-primary/10">
+    <span class="font-serif text-xl font-bold">Explore Linespedia</span>
+    <button id="mobile-menu-close" type="button" class="p-2 text-primary/60" aria-label="Close navigation">
+      <X size={20} />
+    </button>
+  </div>
+
+  <nav class="grid gap-1 mt-4" aria-label="Mobile primary">
+    <a href="/" class="rounded-xl px-4 py-3 text-sm font-semibold hover:bg-primary/5">Home</a>
+    {navItems.map(item => <a href={item.href} class="rounded-xl px-4 py-3 text-sm font-semibold hover:bg-primary/5">{item.name}</a>)}
+    {secondaryItems.map(item => <a href={item.href} class="rounded-xl px-4 py-3 text-sm font-semibold text-primary/65 hover:bg-primary/5">{item.name}</a>)}
+  </nav>
+
+  <div class="mt-4 border-t border-primary/10 pt-4">
+    <p class="px-4 pb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary/40">Language</p>
+    <div class="grid grid-cols-2 gap-1">
+      {languages.map(lang => (
+        <button type="button" class="lang-select-btn rounded-lg px-3 py-2 text-left text-xs font-semibold hover:bg-primary/5" data-lang={lang.code}>
+          {lang.name}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <a href="/submit/" class="mt-5 block rounded-xl bg-primary px-4 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white">
+    Submit a line
   </a>
-  {navItems.map(item => (
-    <a href={item.href} class="flex flex-col items-center space-y-1 text-primary/60">
-      <item.icon size={20} />
-      <span class="text-[10px] font-medium uppercase tracking-wider">{item.name}</span>
+</div>
+
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-paper/95 backdrop-blur-xl border-t border-primary/10 px-4 py-2 shadow-[0_-8px_24px_rgba(40,35,79,0.08)]" aria-label="Mobile quick navigation">
+  <div class="flex items-center justify-around">
+    <a href="/" class="flex flex-col items-center gap-1 text-primary">
+      <Home size={19} />
+      <span class="text-[9px] font-semibold uppercase tracking-wider">Home</span>
     </a>
-  ))}
+    <a href="/explore/" class="flex flex-col items-center gap-1 text-primary/60">
+      <Compass size={19} />
+      <span class="text-[9px] font-semibold uppercase tracking-wider">Explore</span>
+    </a>
+    <a href="/categories/" class="flex flex-col items-center gap-1 text-primary/60">
+      <LayoutGrid size={19} />
+      <span class="text-[9px] font-semibold uppercase tracking-wider">Browse</span>
+    </a>
+    <a href="/writers/" class="flex flex-col items-center gap-1 text-primary/60">
+      <PenTool size={19} />
+      <span class="text-[9px] font-semibold uppercase tracking-wider">Writers</span>
+    </a>
+    <a href="/submit/" class="flex flex-col items-center gap-1 text-primary/60">
+      <BookOpen size={19} />
+      <span class="text-[9px] font-semibold uppercase tracking-wider">Submit</span>
+    </a>
+  </div>
 </nav>
 
 <style>
-  /* Add padding to body to account for fixed bottom nav on mobile */
   @media (max-width: 768px) {
-    :global(body) {
-      padding-bottom: 72px;
-    }
+    :global(body) { padding-bottom: 64px; }
   }
 </style>
 
 <script>
   const menuBtn = document.getElementById('mobile-menu-btn');
-  menuBtn?.addEventListener('click', () => {
-    // Reveal a simple language picker on mobile
-    const langPicker = document.getElementById('mobile-lang-picker');
-    langPicker?.classList.toggle('hidden');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const mobileNav = document.getElementById('mobile-navigation');
+
+  function setMenu(open: boolean) {
+    mobileNav?.classList.toggle('hidden', !open);
+    menuBtn?.setAttribute('aria-expanded', String(open));
+  }
+
+  menuBtn?.addEventListener('click', () => setMenu(true));
+  closeBtn?.addEventListener('click', () => setMenu(false));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenu(false);
   });
 
-  // Language Selection Logic
   document.querySelectorAll('.lang-select-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const lang = (btn as HTMLElement).dataset.lang;
+      const lang = (btn as HTMLElement).dataset.lang || 'en';
       const url = new URL(window.location.href);
-      if (lang === 'en') {
-        url.searchParams.delete('lang');
-      } else {
-        url.searchParams.set('lang', lang!);
-      }
+      if (lang === 'en') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', lang);
       window.location.href = url.toString();
     });
   });
