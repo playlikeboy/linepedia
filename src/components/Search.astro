@@ -17,10 +17,10 @@ import { Search as SearchIcon, Quote, Loader2 } from 'lucide-astro';
         type="text"
         id="search-input"
         placeholder="Search for keywords, authors, or themes..."
-        class="w-full bg-white/80 backdrop-blur-xl border-2 border-indigo-50/50 rounded-full py-5 pl-16 pr-8 shadow-xl focus:outline-none focus:border-accent/30 focus:shadow-accent/5 transition-all text-lg"
+        class="w-full bg-paper border border-primary/10 rounded-2xl py-5 pl-16 pr-8 shadow-sm focus:outline-none focus:border-accent/50 focus:ring-4 focus:ring-accent/10 transition-all text-lg"
     />
 
-    <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-4 bg-white/90 backdrop-blur-2xl border border-indigo-50 rounded-3xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-4 duration-300">
+    <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-4 bg-paper/98 backdrop-blur-2xl border border-primary/10 rounded-2xl shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-4 duration-300">
         <!-- Results will be injected here -->
     </div>
 </div>
@@ -77,7 +77,7 @@ import { Search as SearchIcon, Quote, Loader2 } from 'lucide-astro';
         const html = matchedSlugs.map(slug => {
             const title = slug.replace(/-/g, ' ').replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
             return `
-                <a href="/p/${slug}/" class="flex items-center space-x-4 p-5 hover:bg-accent/5 border-b border-indigo-50/50 last:border-0 group/item">
+                <a href="/line/${slug}/" class="flex items-center space-x-4 p-5 hover:bg-accent/5 border-b border-indigo-50/50 last:border-0 group/item">
                     <div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary group-hover/item:bg-accent group-hover/item:text-white transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg>
                     </div>
@@ -91,7 +91,7 @@ import { Search as SearchIcon, Quote, Loader2 } from 'lucide-astro';
 
         resultsContainer.innerHTML = html + `
             <div class="p-4 bg-indigo-50/30 text-center">
-                <a href="/explore?q=${query}" class="text-[10px] uppercase tracking-widest font-black text-accent hover:underline">
+                <a href="/explore/?q=${encodeURIComponent(query)}" class="text-[10px] uppercase tracking-widest font-black text-accent hover:underline">
                     View All Search Results
                 </a>
             </div>

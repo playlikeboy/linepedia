@@ -71,10 +71,8 @@ const localeMap: Record<string, string> = {
 const currentLocale = localeMap[lang] || 'en_US';
 
 // Alternate locales: include at least English as fallback
-const supportedLanguages = ['en', 'es', 'fr', 'de', 'hi', 'ar', 'zh', 'ja', 'ru', 'pt', 'it'];
-const alternateLocales = supportedLanguages
-	.filter((l) => l !== lang)
-	.map((l) => localeMap[l] || l.toUpperCase());
+const supportedLanguages = ['en'];
+const alternateLocales: string[] = [];
 ---
 
 <!DOCTYPE html>
@@ -114,14 +112,8 @@ const alternateLocales = supportedLanguages
  		<meta name="description" content={description} />
  		{keywords && <meta name="keywords" content={keywords} />}
  		<link rel="canonical" href={canonicalURL} />
-		<!-- Hreflang Tags -->
-		{supportedLanguages.map(l => (
-			<link 
-				rel="alternate" 
-				hreflang={l} 
-				href={l === 'en' ? new URL(Astro.url.pathname, Astro.url.origin).href : `${new URL(Astro.url.pathname, Astro.url.origin).href}?lang=${l}`} 
-			/>
-		))}
+		<!-- Hreflang: non-English variants are client-side translations, not separate indexable documents. -->
+		<link rel="alternate" hreflang="en" href={new URL(Astro.url.pathname, Astro.url.origin).href} />
 		<link rel="alternate" hreflang="x-default" href={new URL(Astro.url.pathname, Astro.url.origin).href} />
 		{prevURL && <link rel="prev" href={prevURL} />}
 		{nextURL && <link rel="next" href={nextURL} />}
@@ -158,16 +150,16 @@ const alternateLocales = supportedLanguages
 
 		<!-- Verification Tags -->
 		<meta name="robots" content={robotsContent} />
-		<meta name="theme-color" content="#4f46e5" />
+		<meta name="theme-color" content="#28234f" />
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 		<meta name="apple-mobile-web-app-title" content="Linespedia" />
 		<meta name="application-name" content="Linespedia" />
-		<meta name="msapplication-TileColor" content="#4f46e5" />
+		<meta name="msapplication-TileColor" content="#28234f" />
 
 		<!-- Google Fonts (moved from CSS @import to eliminate waterfall) -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" />
 
 		<slot name="head" />
 		<!-- Defer non-critical scripts: load after page interactive -->
@@ -226,7 +218,7 @@ const alternateLocales = supportedLanguages
 		</script>
 	</head>
 	<body class="min-h-screen flex flex-col">
-		<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-lg focus:outline-none">Skip to content</a>
+		<a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-primary text-white px-4 py-2 rounded-lg shadow-lg focus:outline-none">Skip to content</a>
 		<TopBanner />
 		<main id="main-content">
 			<slot />

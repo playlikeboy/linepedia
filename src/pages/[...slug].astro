@@ -466,6 +466,7 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
           name: b.name,
           url: b.href,
         }))}
+        contentText={data?.content}
       />
     )
   	}
@@ -484,17 +485,17 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
   
   	<Navbar />
 
-	<main class="min-h-screen poetic-gradient">
+	<main class="min-h-screen bg-cream">
     	{/* ========== LINE PAGE ========== */}
     	{
       		type === "line" && (
-        		<div class="container mx-auto px-4 py-12 md:py-32 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+        		<div class="container mx-auto px-4 py-8 md:py-14 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
           			<Breadcrumb items={breadcrumbs} />
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 mt-8">
             {/* Main Content Column */}
-            <div class="lg:col-span-8 space-y-12">
-               <article class="bg-white/70 backdrop-blur-2xl border border-white/40 rounded-[4rem] p-10 md:p-16 shadow-2xl relative overflow-hidden group">
+            <div class="lg:col-span-8 space-y-10">
+               <article class="bg-transparent border-y border-primary/10 py-8 md:py-12 relative overflow-hidden group">
                  <div class="absolute top-0 right-0 p-12 opacity-[0.03] text-primary group-hover:scale-110 transition-transform duration-700">
                    <Quote size={120} />
                  </div>
@@ -522,7 +523,7 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
                       </div>
                    </header>
 
-                   <blockquote class="text-2xl md:text-4xl font-serif font-black text-primary leading-tight md:leading-snug mb-16 selection:bg-accent/20 max-w-4xl mx-auto text-center">
+                   <blockquote class="text-[1.6rem] md:text-[2.45rem] font-reading font-medium text-primary leading-[1.55] md:leading-[1.6] mb-12 selection:bg-accent/20 max-w-4xl mx-auto text-center">
                      <p class="whitespace-pre-line drop-shadow-sm italic">
                        {data.content}
                      </p>
@@ -531,14 +532,14 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
                   <div class="flex flex-wrap justify-center gap-4 mb-16">
                     <button
                       id="copy-btn"
-                      class="bg-primary text-white px-8 py-4 rounded-full text-sm font-bold flex items-center space-x-3 hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/10"
+                      class="bg-primary text-white px-6 py-3 rounded-full text-xs font-bold flex items-center space-x-3 hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/10"
                     >
                       <Copy size={18} />
                       <span>Copy</span>
                     </button>
                     <button
                       id="whatsapp-btn"
-                      class="bg-[#25D366] text-white px-8 py-4 rounded-full text-sm font-bold flex items-center space-x-3 hover:bg-[#128C7E] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-green-500/10"
+                      class="bg-transparent border border-primary/15 text-primary px-6 py-3 rounded-full text-xs font-bold flex items-center space-x-3 hover:bg-[#128C7E] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-green-500/10"
                     >
                       <svg
                         width="18"
@@ -585,7 +586,7 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
                     </button>
                     <button
                       id="pin-btn"
-                      class="bg-[#E60023] text-white px-8 py-4 rounded-full text-sm font-bold flex items-center space-x-3 hover:bg-[#ad001a] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-red-500/10"
+                      class="bg-transparent border border-primary/15 text-primary px-6 py-3 rounded-full text-xs font-bold flex items-center space-x-3 hover:bg-[#ad001a] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-red-500/10"
                     >
                     <svg width="18" height="18" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         
@@ -618,10 +619,10 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
                       writerName={writer?.name || data.writer}
                     />
 
-                  <div class="mt-12 bg-indigo-50/40 backdrop-blur-md rounded-[2.5rem] p-8 md:p-12 border border-indigo-100/30 relative">
+                  <div class="mt-10 bg-primary/[0.035] rounded-2xl p-6 md:p-8 border border-primary/10 relative">
                     <div
                       id="translation-loader"
-                      class="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-[2.5rem] hidden"
+                      class="absolute inset-0 bg-paper/92 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl hidden"
                     >
                       <div class="flex items-center gap-3">
                         <div class="w-2 h-2 bg-primary rounded-full animate-bounce" />
@@ -661,7 +662,7 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
               />
 
               {/* Tags / Categories */}
-              <div class="bg-white/30 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 border border-white/40">
+              <div class="bg-transparent rounded-2xl p-6 md:p-8 border border-primary/10">
                 <h3 class="text-xs font-black text-primary/30 uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
                   <Bookmark size={16} />
                   <span>Classified Tags</span>
@@ -670,7 +671,7 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
                   {data.category?.map((cat: string) => (
                     <a
                       href={`/${getCategorySlug(cat)}/`}
-                      class="px-5 py-2 bg-white border border-indigo-100 rounded-full text-xs font-bold text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                      class="px-4 py-2 bg-paper border border-primary/10 rounded-full text-xs font-semibold text-primary/70 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
                     >
                       #{cat.toLowerCase()}
                     </a>
@@ -678,7 +679,7 @@ const posterUrl = type === "line" ? getPosterUrl(data.slug) : null;
                   {writer && (
                     <a
                       href={`/${writer.slug}/`}
-                      class="px-5 py-2 bg-indigo-50 border border-indigo-100 rounded-full text-xs font-bold text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                      class="px-4 py-2 bg-primary/5 border border-primary/10 rounded-full text-xs font-semibold text-primary/70 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
                     >
                       #{writer.name?.toLowerCase().replace(/\s+/g, "")}
                     </a>

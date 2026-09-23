@@ -13,16 +13,16 @@ interface Props {
 const { id, slug, content, writer, writerName } = Astro.props;
 ---
 
-<div class="bg-white border border-indigo-50 rounded-2xl p-6 flex flex-col h-full card-shadow card-hover group" data-poem-card data-slug={slug}>
+<div class="bg-transparent border-t border-primary/10 p-6 md:p-7 flex flex-col h-full group" data-poem-card data-slug={slug}>
   <div class="flex-grow">
     <blockquote class="italic text-primary/80 leading-relaxed mb-6">
-      <p class="whitespace-pre-line text-lg font-serif poem-text">
+      <p class="whitespace-pre-line text-[1.35rem] md:text-2xl font-reading poem-text">
         "{content}"
       </p>
     </blockquote>
   </div>
 
-  <div class="flex items-center justify-between border-t border-indigo-50 pt-4">
+  <div class="flex items-center justify-between border-t border-primary/10 pt-4">
     <a href={`/${writer}/`} class="flex items-center space-x-2 group/writer">
       <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center overflow-hidden">
         <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${writer}`} alt={writerName} loading="lazy" />
@@ -31,10 +31,10 @@ const { id, slug, content, writer, writerName } = Astro.props;
     </a>
 
     <div class="flex items-center space-x-1">
-      <button class="pin-card-btn p-2 text-primary/30 hover:text-[#E60023] transition-colors" title="Pin to Pinterest">
+      <button class="pin-card-btn p-2 text-primary/30 hover:text-[#E60023] transition-colors" title="Pin to Pinterest" aria-label="Pin to Pinterest">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.289 2C6.617 2 2 6.617 2 12.289c0 4.305 2.605 7.991 6.385 9.556-.089-.81-.131-1.341-.131-1.341s-.581-2.476-.581-2.476-.149-.595.044-.847c.18-.235.617-.308.617-.308s1.603.208 2.613 1.055c.951.802 2.304 1.24 3.731 1.24 4.148 0 7.857-3.14 7.857-8.583 0-5.321-3.692-8.471-8.525-8.471-5.636 0-9.283 3.491-9.283 8.356 0 2.059.569 3.655 1.706 4.704.141.13.296.223.364.076.069-.149.231-.914.3-.1.1.2.062 1.18-.33.324-1.01-1.282-1.369-2.914-1.369-4.704 0-3.321 2.502-6.526 7.154-6.526 3.869 0 6.617 2.766 6.617 6.195 0 4.305-2.152 7.324-5.333 7.324-1.077 0-2.091-.56-2.438-1.222l-.666 2.541c-.241.939-.893 2.115-1.332 2.827 1.026.31 2.119.469 3.255.469 5.672 0 10.289-4.617 10.289-10.289S17.961 2 12.289 2z"/></svg>
       </button>
-      <button class="copy-card-btn p-2 text-primary/30 hover:text-accent transition-colors" title="Copy">
+      <button class="copy-card-btn p-2 text-primary/30 hover:text-accent transition-colors" title="Copy poem" aria-label="Copy poem">
         <Copy size={16} />
       </button>
       <a href={`/line/${slug}/`} class="ml-4 text-xs font-bold uppercase tracking-widest text-primary/40 hover:text-primary transition-colors">

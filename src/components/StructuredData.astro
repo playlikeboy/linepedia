@@ -12,6 +12,7 @@ interface Props {
   breadcrumbs?: { name: string; url: string }[];
   faqs?: { q: string; a: string }[];
   itemCount?: number;
+  contentText?: string;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   breadcrumbs = [],
   faqs = [],
   itemCount,
+  contentText,
 } = Astro.props;
 const siteUrl = Astro.site?.toString()?.replace(/\/$/, '') || "https://library.linespedia.com";
 const inferredLanguage = String(Astro.url.searchParams.get("lang") || "en").toLowerCase();
@@ -116,7 +118,7 @@ const contentSchema =
         "@id": `${resolvedUrl}#poem`,
         name: title,
         description: description,
-        text: description,
+        text: contentText || description,
         inLanguage: schemaLanguage,
         author: {
           "@type": "Person",
